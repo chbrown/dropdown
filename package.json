@@ -6,7 +6,7 @@
     "select",
     "dom"
   ],
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/chbrown/dropdown",
   "repository": "git://github.com/chbrown/dropdown.git",
   "bugs": "https://github.com/chbrown/dropdown/issues",
