@@ -9,7 +9,7 @@ class EventEmitter {
     if (this.events[name] === undefined) {
       this.events[name] = [];
     }
-    this.events[name].push({callback: callback, thisArg: context});
+    this.events[name].push({callback, thisArg: context});
     return this;
   }
   /**
@@ -145,7 +145,7 @@ export class Dropdown extends EventEmitter {
     // while (this.results_el.lastChild) {
     //   results_el.removeChild(this.results_el.lastChild);
     // }
-    options.forEach(function(option) {
+    options.forEach(option => {
       // label can be either a string or a DOM element
       var label: Node;
       if (typeof option.label === 'string') {

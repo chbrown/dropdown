@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var EventEmitter = (function () {
     function EventEmitter() {
@@ -141,7 +140,6 @@ var Dropdown = (function (_super) {
         //   results_el.removeChild(this.results_el.lastChild);
         // }
         options.forEach(function (option) {
-            var _this = this;
             // label can be either a string or a DOM element
             var label;
             if (typeof option.label === 'string') {
