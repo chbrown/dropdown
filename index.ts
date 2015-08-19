@@ -1,8 +1,10 @@
-interface Listener {
+//// export module dropdown {
+
+export interface Listener {
   callback: Function;
   thisArg?: any;
 }
-class EventEmitter {
+export class EventEmitter {
   events: {[index: string]: Listener[]} = {};
   constructor() { }
   on(name: string, callback: Function, context?: any): EventEmitter {
@@ -51,7 +53,7 @@ results_el:
 selected_el:
     the currently element for results
 */
-interface DropdownOption {
+export interface DropdownOption {
   label: string | Node;
   value: string;
 }
@@ -185,3 +187,5 @@ export class Dropdown extends EventEmitter {
     return new Dropdown(input_el);
   }
 }
+
+//// }

@@ -1,3 +1,4 @@
+//// export module dropdown {
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -49,6 +50,7 @@ var EventEmitter = (function () {
     };
     return EventEmitter;
 })();
+exports.EventEmitter = EventEmitter;
 var Dropdown = (function (_super) {
     __extends(Dropdown, _super);
     function Dropdown(input_el) {
@@ -177,3 +179,4 @@ var Dropdown = (function (_super) {
     return Dropdown;
 })(EventEmitter);
 exports.Dropdown = Dropdown;
+//// }
