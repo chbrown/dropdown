@@ -1,5 +1,3 @@
-//// export module dropdown {
-
 export interface Listener {
   callback: Function;
   thisArg?: any;
@@ -20,8 +18,8 @@ export class EventEmitter {
   */
   off(name: string, callback: Function): EventEmitter {
     if (name in this.events) {
-      var listeners = this.events[name];
-      for (var i = 0, listener: Listener; (listener = listeners[i]); i++) {
+      const listeners = this.events[name];
+      for (let i = 0, listener: Listener; (listener = listeners[i]); i++) {
         if (listener.callback === callback) {
           listeners.splice(i, 1);
           // only remove one at a time
@@ -36,8 +34,8 @@ export class EventEmitter {
   */
   emit(name: string, ...args: any[]): EventEmitter {
     if (name in this.events) {
-      var listeners = this.events[name];
-      for (var i = 0, listener: Listener; (listener = listeners[i]); i++) {
+      const listeners = this.events[name];
+      for (let i = 0, listener: Listener; (listener = listeners[i]); i++) {
         listener.callback.apply(listener.thisArg, args);
       }
     }
@@ -78,7 +76,7 @@ export class Dropdown extends EventEmitter {
     this.input_el.addEventListener('focus', () => this.changed());
     this.input_el.addEventListener('blur', () => this.reset());
   }
-  keydown(event) {
+  keydown(event: KeyboardEvent) {
     if (event.which === 13) { // 13 == ENTER
       event.preventDefault();
     }
@@ -86,7 +84,7 @@ export class Dropdown extends EventEmitter {
       if (this.selected_el) {
         // Don't go lower than 0 when clicking up
         if (this.selected_el.previousSibling) {
-          this.preselect(<HTMLLIElement>this.selected_el.previousSibling);
+          this.preselect(this.selected_el.previousSibling as HTMLLIElement);
         }
       }
       event.preventDefault();
@@ -96,15 +94,15 @@ export class Dropdown extends EventEmitter {
       if (this.selected_el) {
         // Don't go higher than the last available option when going down
         if (this.selected_el.nextSibling) {
-          this.preselect(<HTMLLIElement>this.selected_el.nextSibling);
+          this.preselect(this.selected_el.nextSibling as HTMLLIElement);
         }
       }
       else {
-        this.preselect(<HTMLLIElement>this.results_el.firstChild);
+        this.preselect(this.results_el.firstChild as HTMLLIElement);
       }
     }
   }
-  keyup(event) {
+  keyup(event: KeyboardEvent) {
     if (event.which === 13) { // 13 == ENTER
       this.selected();
       this.reset();
@@ -117,7 +115,7 @@ export class Dropdown extends EventEmitter {
     this.emit('select', this.selected_el.dataset['value'], this.selected_el);
   }
   changed() {
-    var query = this.input_el.value;
+    const query = this.input_el.value;
     if (query !== this.query) {
       this.emit('change', query);
     }
@@ -142,23 +140,18 @@ export class Dropdown extends EventEmitter {
     this.query = query;
 
     // clear
-    var results_el = <HTMLUListElement>this.results_el.cloneNode(false);
+    const results_el = this.results_el.cloneNode(false) as HTMLUListElement;
     results_el.style.display = options.length > 0 ? 'block' : 'none';
     // while (this.results_el.lastChild) {
     //   results_el.removeChild(this.results_el.lastChild);
     // }
     options.forEach(option => {
       // label can be either a string or a DOM element
-      var label: Node;
-      if (typeof option.label === 'string') {
-        label = document.createTextNode(<string>option.label);
-      }
-      else {
-        label = <Node>option.label;
-      }
-      var li = document.createElement('li');
-      li.appendChild(label);
-      li.dataset['value'] = option.value;
+      const {label, value} = option;
+      const labelNode = (typeof label === 'string') ? document.createTextNode(label) : label;
+      const li = document.createElement('li');
+      li.appendChild(labelNode);
+      li.dataset['value'] = value;
 
       // I wish I could listen for mouseover / mousedown higher up, but it's
       // harder, since it's hard to listen at a certain level
@@ -187,5 +180,3 @@ export class Dropdown extends EventEmitter {
     return new Dropdown(input_el);
   }
 }
-
-//// }

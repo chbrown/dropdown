@@ -1,12 +1,16 @@
 BIN := node_modules/.bin
+TYPESCRIPT := index.ts
 
-all: dropdown.d.ts index.js
+all: $(TYPESCRIPT:%.ts=%.js) $(TYPESCRIPT:%.ts=%.d.ts) .npmignore .gitignore
+
+.npmignore: tsconfig.json
+	echo $(TYPESCRIPT) demo/ Makefile tsconfig.json | tr ' ' '\n' > $@
+
+.gitignore: tsconfig.json
+	echo $(TYPESCRIPT:%.ts=%.js) $(TYPESCRIPT:%.ts=%.d.ts) | tr ' ' '\n' > $@
 
 $(BIN)/tsc:
 	npm install
 
-dropdown.d.ts: index.ts $(BIN)/tsc
-	sed 's:^//// ::g' $< > module.ts
-	$(BIN)/tsc --module commonjs --target ES5 --declaration module.ts
-	sed 's:export declare module dropdown:declare module "dropdown":' <module.d.ts >$@
-	rm module.{ts,d.ts,js}
+%.js %.d.ts: %.ts $(BIN)/tsc
+	$(BIN)/tsc -d
